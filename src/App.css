@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+.square {
+  height: 50px;
+  width: 50px;
+  background-color: #D3D3D3;
+  margin-right:  5px;
+  margin-bottom:  5px;
+}
+
+.row {
+  display: inline-block;
+}
+
+input {
+  padding: 0.2em; 
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+} 
