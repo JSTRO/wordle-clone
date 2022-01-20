@@ -1,22 +1,26 @@
 import React, {useState, useEffect, useRef} from 'react'
 import '../App.css'
 
-function Square({name, handleFocus}) {
-
-  const [letter, setLetter] = useState('')
+function Square({colID, letters, setLetters}) {
   
   const handleChange = e => {
-    setLetter(e.target.value.toUpperCase())
+    let {value} = e.target
+    value = value.toUpperCase()
+
+    let newArr = [...letters]
+    newArr[colID] = value 
+
+    setLetters(newArr)
   }
 
   return (
     <input 
       type="text" 
-      value={letter}
-      name={name}
+      readOnly
+      value={letters[colID]}
+      name={letters[colID]}
       maxLength={1}
-      onChange={handleChange} 
-      onChange={handleFocus} />
+      onChange={handleChange} />
   )
 }
 

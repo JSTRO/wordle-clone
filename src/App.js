@@ -8,13 +8,7 @@ function App() {
   const [wordList, setWordList] = useState('')
   const [word, setWord] = useState('')
   const [guess, setGuess] = useState('')
-  const [round, setRound] = useState(1)
-  
-  // const handleFocus = e => {
-  //   if (e.target.value.length === e.target.maxLength) {  
-  //     e.target.nextSibling.focus()
-  //   }
-  // }
+  const [currentRound, setCurrentRound] = useState(0)
 
   useEffect(() => {
     const getWordList = async () => {
@@ -37,7 +31,7 @@ function App() {
     <div className="App">
       <h2>Wordle Clone</h2>
 
-      <Board />
+      <Board currentRound={currentRound}/>
     </div>
   )
 }

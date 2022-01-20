@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Row from './Row'
 
-function Board() {
+function Board({currentRound}) {
   return (
     <div>
-      {[...Array(5)].map((row, rowID) => <Row key={rowID}/>)}
+      {[...Array(6)].map((row, rowID, currentRound) =>(
+        <Row 
+          key={rowID} 
+          rowID={rowID}
+          currentRound={currentRound}
+        />
+      ))}
     </div>
   )
 }
