@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Square from './Square'
 
-function Row({rowID, currentRound}) {
+function Row({rowID, currentRound, setGuess}) {
   const [letters, setLetters] = useState(Array(5).fill(''))
   const [isRowActive, setIsRowActive] = useState(false)
 
@@ -22,6 +22,10 @@ function Row({rowID, currentRound}) {
       setIsRowActive(true)
     }
   }, [])
+
+  useEffect(() => {
+    setGuess(letters.join('').toLowerCase())
+  }, [letters])
 
   return (
     <form onChange={handleFocus} onKeyDown={handleDelete}>

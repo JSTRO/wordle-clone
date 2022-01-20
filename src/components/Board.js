@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Row from './Row'
 
-function Board({currentRound}) {
+function Board({currentRound, setGuess}) {
   return (
     <div>
       {[...Array(6)].map((row, rowID) =>(
@@ -9,6 +9,7 @@ function Board({currentRound}) {
           key={rowID} 
           rowID={rowID}
           currentRound={currentRound}
+          setGuess={setGuess}
         />
       ))}
     </div>

@@ -31,7 +31,7 @@ function App() {
     <div className="App">
       <h2>Wordle Clone</h2>
 
-      <Board currentRound={currentRound}/>
+      <Board currentRound={currentRound} setGuess={setGuess}/>
     </div>
   )
 }
