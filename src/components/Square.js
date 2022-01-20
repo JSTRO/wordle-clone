@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 import '../App.css'
 
-function Square({colID, letters, setLetters}) {
+function Square({colID, letters, setLetters, isRowActive}) {
   
   const handleChange = e => {
     let {value} = e.target
@@ -16,7 +16,7 @@ function Square({colID, letters, setLetters}) {
   return (
     <input 
       type="text" 
-      readOnly
+      readOnly={!isRowActive}
       value={letters[colID]}
       name={letters[colID]}
       maxLength={1}

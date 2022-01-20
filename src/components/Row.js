@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Square from './Square'
 
 function Row({rowID, currentRound}) {
-
   const [letters, setLetters] = useState(Array(5).fill(''))
   const [isRowActive, setIsRowActive] = useState(false)
 
@@ -18,12 +17,19 @@ function Row({rowID, currentRound}) {
     }
   }
 
+  useEffect(() => {
+    if (rowID === currentRound) {
+      setIsRowActive(true)
+    }
+  }, [])
+
   return (
     <form onChange={handleFocus} onKeyDown={handleDelete}>
       {[...Array(5)].map((col, colID) => (
         <Square 
           key={colID} 
           colID={colID}
+          isRowActive={isRowActive}
           letters={letters} 
           setLetters={setLetters}/>
       ))}

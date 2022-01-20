@@ -4,7 +4,7 @@ import Row from './Row'
 function Board({currentRound}) {
   return (
     <div>
-      {[...Array(6)].map((row, rowID, currentRound) =>(
+      {[...Array(6)].map((row, rowID) =>(
         <Row 
           key={rowID} 
           rowID={rowID}
