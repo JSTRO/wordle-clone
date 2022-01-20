@@ -1,11 +1,20 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
+import Board from './components/Board'
 import './App.css'
 import axios from 'axios'
-import Square from './Square'
 
 function App() {
-  const [wordList, setWordList] = useState([])
-  const [board, setBoard] = useState([])
+
+  const [wordList, setWordList] = useState('')
+  const [word, setWord] = useState('')
+  const [guess, setGuess] = useState('')
+  const [round, setRound] = useState(1)
+  
+  // const handleFocus = e => {
+  //   if (e.target.value.length === e.target.maxLength) {  
+  //     e.target.nextSibling.focus()
+  //   }
+  // }
 
   useEffect(() => {
     const getWordList = async () => {
@@ -16,34 +25,19 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const getRandomWord = array => {
-      let randomIdx = Math.floor(Math.random() * array.length)
-      console.log(randomIdx)
+    const getRandomWord = wordArr => {
+      let randomIdx = Math.floor(Math.random() * wordArr.length)
+      return wordArr[randomIdx]
     }
-    getRandomWord(wordList)
+    let randomWord = getRandomWord(wordList)
+    setWord(randomWord)
   }, [wordList])
 
-  useEffect(() => {
-    const generateBoard = () => {
-      return (
-        [...Array(5)].map(() => {
-          return (
-            <div className="row"> 
-              {[...Array(6)].map(() =>< Square />)}
-            </div>   
-          )
-        })
-      )
-    }
-    
-    setBoard(generateBoard())
-  }, [])
-  
   return (
     <div className="App">
-      <header>Wordle Clone</header>
+      <h2>Wordle Clone</h2>
 
-      {board}
+      <Board />
     </div>
   )
 }
