@@ -1,26 +1,32 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import '../App.css'
 
-function Square({colID, letters, setLetters, isRowActive}) {
-  
+function Square({
+  colID,
+  letters,
+  setLetters,
+  isRowActive,
+  squareColor,
+}) {
   const handleChange = e => {
-    let {value} = e.target
-    value = value.toUpperCase()
+    let { value } = e.target
 
     let newArr = [...letters]
-    newArr[colID] = value 
+    newArr[colID] = value
 
     setLetters(newArr)
   }
 
   return (
-    <input 
-      type="text" 
+    <input
+      type="text"
       readOnly={!isRowActive}
       value={letters[colID]}
       name={letters[colID]}
       maxLength={1}
-      onChange={handleChange} />
+      onChange={handleChange}
+      className={squareColor}
+    />
   )
 }
 

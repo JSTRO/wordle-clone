@@ -30,8 +30,13 @@ function App() {
   return (
     <div className="App">
       <h2>Wordle Clone</h2>
-
-      <Board currentRound={currentRound} setGuess={setGuess}/>
+      <Board 
+        currentRound={currentRound} 
+        setCurrentRound={setCurrentRound}
+        guess={guess} 
+        setGuess={setGuess}
+        word={word}
+      />
     </div>
   )
 }
