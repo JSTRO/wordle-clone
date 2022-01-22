@@ -2,30 +2,29 @@ import React, { useState, useEffect, useRef } from 'react'
 import '../App.css'
 
 function Square({
-  colID,
+  cellID,
   letters,
   setLetters,
   isRowActive,
   squareColor,
 }) {
+
   const handleChange = e => {
     let { value } = e.target
-
     let newArr = [...letters]
-    newArr[colID] = value
-
+    newArr[cellID] = value
     setLetters(newArr)
   }
 
   return (
     <input
       type="text"
-      readOnly={!isRowActive}
-      value={letters[colID]}
-      name={letters[colID]}
+      value={letters[cellID]}
+      name={letters[cellID]}
       maxLength={1}
       onChange={handleChange}
       className={squareColor}
+      autoFocus
     />
   )
 }

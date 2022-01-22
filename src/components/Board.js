@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import Row from './Row'
 
-function Board({currentRound, guess, setGuess, word}) {
+function Board({ word }) {
+  const [activeRow, setActiveRow] = useState(0)
+
   return (
     <div>
-      {[...Array(6)].map((row, rowID) =>(
-        <Row 
-          key={rowID} 
+      {[...Array(6)].map((row, rowID) => (
+        <Row
+          key={rowID}
           rowID={rowID}
-          currentRound={currentRound}
-          guess={guess}
-          setGuess={setGuess}
+          activeRow={activeRow}
+          setActiveRow={setActiveRow}
           word={word}
         />
       ))}

@@ -1,0 +1,3 @@
+autofocus first cell of next row
+alert after color change
+change alert styles

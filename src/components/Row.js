@@ -1,77 +1,95 @@
 import React, { useState, useEffect } from 'react'
 import Square from './Square'
 
-function Row({rowID, setCurrentRound, currentRound, guess, setGuess, word}) {
+function Row({ rowID, word, activeRow, setActiveRow }) {
   const [letters, setLetters] = useState(Array(5).fill(''))
-  const [isRowActive, setIsRowActive] = useState(false)
+  const [guess, setGuess] = useState('')
   const [squareColors, setSquareColors] = useState([])
-
-  console.log(guess)
+  const [submitDisabled, setSubmitDisabled] = useState(false)
+  const [rowDisabled, setRowDisabled] = useState(true)
 
   useEffect(() => {
-    if (rowID === currentRound) {
-      setIsRowActive(true)
+    if (activeRow === rowID) {
+      setRowDisabled(false)
     }
-  }, [currentRound])
+  }, [activeRow])
+
+  useEffect(() => {
+    setGuess(letters.join(''))
+  }, [letters])
 
   const handleFocus = e => {
-    if (e.target.value.length === e.target.maxLength && e.target.nextSibling) {  
-      e.target.nextSibling.focus()
+    let { value, maxLength, nextSibling } = e.target
+    if (value.length === maxLength && nextSibling) {
+      nextSibling.focus()
     }
   }
 
   const handleDelete = e => {
-    if(e.keyCode === 8 && e.target.value.length < e.target.maxLength &&  e.target.previousSibling) {
-      e.target.previousSibling.focus()
+    let { value, maxLength, previousSibling } = e.target
+    if (e.keyCode === 8 && value.length < maxLength && previousSibling) {
+      previousSibling.focus()
     }
   }
 
   const handleSubmit = e => {
     e.preventDefault()
+    setSubmitDisabled(false)
+    if (submitDisabled) return
     if (guess && guess.length < 5) {
-      alert('Guess must be 5 letters long.')
+      alert(`Guess must be 5 letters long.`)
       return
     }
 
     let wordArr = word && word.split('')
 
-    // console.log(wordArr)
+    console.log(wordArr)
 
-    for (let i=0; i<letters.length; i++) {
-      console.log(letters[i])
-
+    for (let i = 0; i < letters.length; i++) {
       if (letters[i] === wordArr[i]) {
-        setSquareColors(squareColors => [...squareColors, 'background-green'])
+        setSquareColors(squareColors => [...squareColors, 'background-green']) //remove letter from array?
       } else if (wordArr.includes(letters[i])) {
         setSquareColors(squareColors => [...squareColors, 'background-yellow'])
       } else {
         setSquareColors(squareColors => [...squareColors, 'background-gray'])
       }
     }
-    
-    setCurrentRound(currentRound => currentRound++)
+
+    if (word === guess) { //alert after color change
+      alert(`You guessed the word in ${activeRow} ${activeRow > 1 ? 'tries' : 'try'}!`)
+      return
+    }
+
+    setActiveRow(activeRow + 1)
+
+    if (activeRow > 4 && word !== guess) { //alert after color change
+      alert( `Sorry, chap. Better luck next word.`)
+      return
+    }
+
+    setRowDisabled(true)
+    setSubmitDisabled(true)
   }
 
-  console.log(rowID, currentRound)
-
-  useEffect(() => {
-    setGuess(letters.join(''))
-  }, [letters])
-
   return (
-    <form onChange={handleFocus} onKeyDown={handleDelete} onSubmit={handleSubmit}>
-      {letters.map((col, colID) => (
-        <Square 
-          key={colID} 
-          colID={colID}
-          isRowActive={isRowActive}
-          letters={letters} 
-          setLetters={setLetters}
-          squareColor={squareColors[colID]}
+    <form
+      onChange={handleFocus}
+      onKeyDown={handleDelete}
+      onSubmit={handleSubmit}
+    >
+      <fieldset disabled={rowDisabled}>
+        {letters.map((cell, cellID) => (
+          <Square
+            key={cellID}
+            cellID={cellID}
+            letters={letters}
+            setLetters={setLetters}
+            squareColor={squareColors[cellID]}
           />
-      ))}
-      <button onSubmit={handleSubmit}>Submit</button>  {/*hidden button is work around*/}
-    </form>  
+        ))}
+        <button >Submit</button> {/*hidden button is workaround*/}
+      </fieldset>
+    </form>
   )
 }
 
