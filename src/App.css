@@ -7,7 +7,7 @@ h2 {
 }
 
 h3 {
-  margin:  0px;
+  margin: 0px;
   font-size: 16px;
 }
 
@@ -21,14 +21,14 @@ input {
   width: 75px;
   margin: 0px 5px 5px 0px;
   border-style: solid;
-} 
+}
 
 button {
-  display:  none;
+  display: none;
 }
 
 fieldset {
-  border:  0;
+  border: 0;
   padding: 0;
   margin-top: 0px;
 }
@@ -39,15 +39,17 @@ fieldset {
 }
 
 .alert-characters {
-  color: #FF0000;
+  color: #ff0000;
 }
 
 .board {
   margin-top: 20px;
 }
 
-.background-green, .background-yellow, .background-gray {
-  color: #FFFFFF;
+.background-green,
+.background-yellow,
+.background-gray {
+  color: #ffffff;
 }
 
 .background-green {
@@ -55,7 +57,7 @@ fieldset {
 }
 
 .background-yellow {
-  background-color: #E1AD01;
+  background-color: #e1ad01;
 }
 
 .background-gray {

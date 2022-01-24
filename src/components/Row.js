@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import Square from './Square'
+import getRowStatus from '../utils/getRowStatus'
+import getClassFromStatus from '../utils/getClassFromStatus'
 
-function Row({ rowID, word, activeRow, setActiveRow, setGameWon, setGameLost }) {
-  const [letters, setLetters] = useState(Array(5).fill(''))
+function Row(props) {
+  let { rowID, word, activeRow, setActiveRow, setGameWon, setGameLost } = props
+
+  const [guessedLetters, setGuessedLetters] = useState(Array(5).fill(''))
   const [guess, setGuess] = useState('')
   const [squareColors, setSquareColors] = useState([])
   const [submitDisabled, setSubmitDisabled] = useState(false)
   const [rowDisabled, setRowDisabled] = useState(true)
 
+  // enable row
   useEffect(() => {
     if (activeRow === rowID) {
       setRowDisabled(false)
@@ -15,9 +20,10 @@ function Row({ rowID, word, activeRow, setActiveRow, setGameWon, setGameLost }) 
   }, [activeRow, rowID])
 
   useEffect(() => {
-    setGuess(letters.join(''))
-  }, [letters])
+    setGuess(guessedLetters.join(''))
+  }, [guessedLetters])
 
+  // autofocus next cell
   const handleFocus = e => {
     let { value, maxLength, nextSibling } = e.target
     if (value.length === maxLength && nextSibling) {
@@ -32,55 +38,6 @@ function Row({ rowID, word, activeRow, setActiveRow, setGameWon, setGameLost }) 
     }
   }
 
-  const getRowStatus = () => {
-    let wordArr = word && word.split('')
-
-    let lettersUsed = Array(5).fill(false)
-    let statuses = Array.from(Array(guess.length))
-
-    // handle correct letters
-    letters.forEach((letter, i) => {
-      if (letter === wordArr[i]) {
-        statuses[i] = 'correct'
-        lettersUsed[i] = true
-        return
-      }
-    })
-
-    // handle absent letters
-    letters.forEach((letter, i) => {
-      if (statuses[i]) return
-
-      if (!wordArr.includes(letters[i]))  {
-        statuses[i] = 'missing'
-        return
-      }
-
-      // handle present letters
-      let currentIdx = wordArr.findIndex((el, idx) => el === letter && !lettersUsed[idx])
-
-      if (currentIdx > -1) {
-        statuses[i] = 'present'
-        lettersUsed[currentIdx] = true
-        return
-      } else {
-        statuses[i] = 'missing'
-        return
-      }
-    })
-    return statuses
-  }
-
-  const getClassFromStatus = status => {
-    if (status === 'correct') {
-      return 'background-green'
-    } else if (status === 'present') {
-      return 'background-yellow'
-    } else {
-      return 'background-gray'
-    }
-  } 
-
   const handleSubmit = e => {
     e.preventDefault()
     setSubmitDisabled(false)
@@ -89,14 +46,16 @@ function Row({ rowID, word, activeRow, setActiveRow, setGameWon, setGameLost }) 
       alert(`Guess must be 5 letters long.`)
       return
     }
-
-    // set square colors
-    let statuses = getRowStatus()
-    statuses.forEach(status => setSquareColors(prev => [...prev, getClassFromStatus(status)]))
-
+    // set cell colors
+    let statuses = getRowStatus(guessedLetters, word, guess)
+    statuses.forEach(status =>
+      setSquareColors(prev => [...prev, getClassFromStatus(status)])
+    )
+    // increment active row
     setActiveRow(activeRow + 1)
-
+    // set completed row to readonly
     setRowDisabled(true)
+    // prevent multiple submits
     setSubmitDisabled(true)
 
     if (word === guess) {
@@ -107,8 +66,6 @@ function Row({ rowID, word, activeRow, setActiveRow, setGameWon, setGameLost }) 
     }
   }
 
-  
-
   return (
     <form
       onChange={handleFocus}
@@ -116,16 +73,16 @@ function Row({ rowID, word, activeRow, setActiveRow, setGameWon, setGameLost }) 
       onSubmit={handleSubmit}
     >
       <fieldset disabled={rowDisabled}>
-        {letters.map((cell, cellID) => (
+        {guessedLetters.map((cell, cellID) => (
           <Square
             key={cellID}
             cellID={cellID}
-            letters={letters}
-            setLetters={setLetters}
+            guessedLetters={guessedLetters}
+            setGuessedLetters={setGuessedLetters}
             squareColor={squareColors[cellID]}
           />
         ))}
-        <button >Submit</button> {/*hidden button is workaround*/}
+        <button>Submit</button> {/*hidden button is workaround*/}
       </fieldset>
     </form>
   )

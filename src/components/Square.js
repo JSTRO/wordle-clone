@@ -1,25 +1,24 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import '../App.css'
 
-function Square({ cellID, letters, setLetters, squareColor, setActiveRow }) {
+function Square({
+  cellID,
+  guessedLetters,
+  setGuessedLetters,
+  squareColor,
+  setActiveRow,
+}) {
   const handleChange = e => {
     let { value } = e.target
-    let newArr = [...letters]
+    let newArr = [...guessedLetters]
     newArr[cellID] = value
-    setLetters(newArr)
+    setGuessedLetters(newArr)
   }
-
-  const inputEl = useRef('')
-
-  useEffect(() => {
-    if (inputEl) inputEl.current.focus()
-  }, [])
 
   return (
     <input
-      ref={inputEl}
       type="text"
-      value={letters[cellID]}
+      value={guessedLetters[cellID]}
       maxLength={1}
       onChange={handleChange}
       className={squareColor}

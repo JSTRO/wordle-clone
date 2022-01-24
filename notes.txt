@@ -1,8 +1,5 @@
 TODO
 -autofocus first cell of next row
--alert _after_ color change
--change alert 
--refactor, move logic to separate spot
 
 LOGIC
 if letter not in word --> gray

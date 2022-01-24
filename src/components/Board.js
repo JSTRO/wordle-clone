@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Row from './Row'
 
-function Board({ word, setGameWon, setGameLost }) {
-  const [activeRow, setActiveRow] = useState(0)
-
+function Board({ word, setGameWon, setGameLost, activeRow, setActiveRow }) {
   return (
     <div className="board">
       {[...Array(6)].map((row, rowID) => (
@@ -13,7 +11,7 @@ function Board({ word, setGameWon, setGameLost }) {
           activeRow={activeRow}
           setActiveRow={setActiveRow}
           word={word}
-          setGameWon={setGameWon} 
+          setGameWon={setGameWon}
           setGameLost={setGameLost}
         />
       ))}
