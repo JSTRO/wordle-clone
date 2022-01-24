@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import Row from './Row'
 
-function Board({ word }) {
+function Board({ word, setGameWon, setGameLost }) {
   const [activeRow, setActiveRow] = useState(0)
 
   return (
-    <div>
+    <div className="board">
       {[...Array(6)].map((row, rowID) => (
         <Row
           key={rowID}
@@ -13,6 +13,8 @@ function Board({ word }) {
           activeRow={activeRow}
           setActiveRow={setActiveRow}
           word={word}
+          setGameWon={setGameWon} 
+          setGameLost={setGameLost}
         />
       ))}
     </div>

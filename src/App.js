@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import Board from './components/Board'
+import Alert from './components/Alert'
 import './App.css'
 import axios from 'axios'
 
 function App() {
   const [wordList, setWordList] = useState('')
   const [word, setWord] = useState('')
+  const [gameWon, setGameWon] = useState(false)
+  const [gameLost, setGameLost] = useState(false)
 
   const url = `https://corpora-api.glitch.me/words/word_clues/clues_five`
 
   useEffect(() => {
     const getWordList = async () => {
-      const res = await axios.get(url)
-      setWordList(Object.keys(res.data.data.data))
+      try {
+        const res = await axios.get(url)
+        setWordList(Object.keys(res.data.data.data))
+      } catch (err) {
+        console.log(err)
+      }
     }
     getWordList()
-  }, [])
+  }, [url])
 
   useEffect(() => {
     const getRandomWord = wordArr => {
@@ -26,10 +33,13 @@ function App() {
     setWord(randomWord)
   }, [wordList])
 
+  console.log(word)
+
   return (
     <div className="App">
-      <h2>Wordle Clone</h2>
-      <Board word={word} />
+      <h2>WORDLE</h2>
+      <Alert gameWon={gameWon} gameLost={gameLost}/>
+      <Board word={word} setGameWon={setGameWon} setGameLost={setGameLost}/>
     </div>
   )
 }

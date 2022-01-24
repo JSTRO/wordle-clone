@@ -1,3 +1,15 @@
-autofocus first cell of next row
-alert after color change
-change alert styles
+TODO
+-autofocus first cell of next row
+-alert _after_ color change
+-change alert 
+-refactor, move logic to separate spot
+
+LOGIC
+if letter not in word --> gray
+if letter at correct index --> green
+	wordArr.find(green) and replace with " " (used up)
+else (if this letter is not already guessed at the correct index) --> yellow
+	wordArr.find(yellow) and replace with " " (used up)
+
+	
+

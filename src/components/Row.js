@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Square from './Square'
 
-function Row({ rowID, word, activeRow, setActiveRow }) {
+function Row({ rowID, word, activeRow, setActiveRow, setGameWon, setGameLost }) {
   const [letters, setLetters] = useState(Array(5).fill(''))
   const [guess, setGuess] = useState('')
   const [squareColors, setSquareColors] = useState([])
@@ -12,7 +12,7 @@ function Row({ rowID, word, activeRow, setActiveRow }) {
     if (activeRow === rowID) {
       setRowDisabled(false)
     }
-  }, [activeRow])
+  }, [activeRow, rowID])
 
   useEffect(() => {
     setGuess(letters.join(''))
@@ -32,6 +32,55 @@ function Row({ rowID, word, activeRow, setActiveRow }) {
     }
   }
 
+  const getRowStatus = () => {
+    let wordArr = word && word.split('')
+
+    let lettersUsed = Array(5).fill(false)
+    let statuses = Array.from(Array(guess.length))
+
+    // handle correct letters
+    letters.forEach((letter, i) => {
+      if (letter === wordArr[i]) {
+        statuses[i] = 'correct'
+        lettersUsed[i] = true
+        return
+      }
+    })
+
+    // handle absent letters
+    letters.forEach((letter, i) => {
+      if (statuses[i]) return
+
+      if (!wordArr.includes(letters[i]))  {
+        statuses[i] = 'missing'
+        return
+      }
+
+      // handle present letters
+      let currentIdx = wordArr.findIndex((el, idx) => el === letter && !lettersUsed[idx])
+
+      if (currentIdx > -1) {
+        statuses[i] = 'present'
+        lettersUsed[currentIdx] = true
+        return
+      } else {
+        statuses[i] = 'missing'
+        return
+      }
+    })
+    return statuses
+  }
+
+  const getClassFromStatus = status => {
+    if (status === 'correct') {
+      return 'background-green'
+    } else if (status === 'present') {
+      return 'background-yellow'
+    } else {
+      return 'background-gray'
+    }
+  } 
+
   const handleSubmit = e => {
     e.preventDefault()
     setSubmitDisabled(false)
@@ -41,35 +90,24 @@ function Row({ rowID, word, activeRow, setActiveRow }) {
       return
     }
 
-    let wordArr = word && word.split('')
-
-    console.log(wordArr)
-
-    for (let i = 0; i < letters.length; i++) {
-      if (letters[i] === wordArr[i]) {
-        setSquareColors(squareColors => [...squareColors, 'background-green']) //remove letter from array?
-      } else if (wordArr.includes(letters[i])) {
-        setSquareColors(squareColors => [...squareColors, 'background-yellow'])
-      } else {
-        setSquareColors(squareColors => [...squareColors, 'background-gray'])
-      }
-    }
-
-    if (word === guess) { //alert after color change
-      alert(`You guessed the word in ${activeRow} ${activeRow > 1 ? 'tries' : 'try'}!`)
-      return
-    }
+    // set square colors
+    let statuses = getRowStatus()
+    statuses.forEach(status => setSquareColors(prev => [...prev, getClassFromStatus(status)]))
 
     setActiveRow(activeRow + 1)
 
-    if (activeRow > 4 && word !== guess) { //alert after color change
-      alert( `Sorry, chap. Better luck next word.`)
-      return
-    }
-
     setRowDisabled(true)
     setSubmitDisabled(true)
+
+    if (word === guess) {
+      setGameWon(true)
+    }
+    if (activeRow > 4 && word !== guess) {
+      setGameLost(true)
+    }
   }
+
+  
 
   return (
     <form
