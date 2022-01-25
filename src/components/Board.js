@@ -1,9 +1,10 @@
 import React from 'react'
+import Container from 'react-bootstrap/Container'
 import Row from './Row'
 
 function Board({ word, setGameWon, setGameLost, activeRow, setActiveRow }) {
   return (
-    <div className="board">
+    <Container className="board">
       {[...Array(6)].map((row, rowID) => (
         <Row
           key={rowID}
@@ -15,7 +16,7 @@ function Board({ word, setGameWon, setGameLost, activeRow, setActiveRow }) {
           setGameLost={setGameLost}
         />
       ))}
-    </div>
+    </Container>
   )
 }
 

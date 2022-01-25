@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div className="App">
-      <h2>(SHITTY) WORDLE</h2>
+      <h2>WORDLE CLONE</h2>
       <Alert
         gameWon={gameWon}
         gameLost={gameLost}
