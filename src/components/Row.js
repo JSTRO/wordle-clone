@@ -82,7 +82,7 @@ function Row(props) {
             squareColor={squareColors[cellID]}
           />
         ))}
-        <button>Submit</button> {/*hidden button is workaround*/}
+        <button type="submit">Submit</button> {/*hidden button is workaround*/}
       </fieldset>
     </form>
   )

@@ -4,7 +4,7 @@ import Row from './Row'
 
 function Board({ word, setGameWon, setGameLost, activeRow, setActiveRow }) {
   return (
-    <Container className="board">
+    <div className="board">
       {[...Array(6)].map((row, rowID) => (
         <Row
           key={rowID}
@@ -16,7 +16,7 @@ function Board({ word, setGameWon, setGameLost, activeRow, setActiveRow }) {
           setGameLost={setGameLost}
         />
       ))}
-    </Container>
+    </div>
   )
 }
 
